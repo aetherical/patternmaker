@@ -333,6 +333,12 @@ class PatternMaker
     self.make_plain_pattern(options)
   end
 
+  def PatternMaker.load_wif(path)
+    options = {
+  	:data => Ini.read_from_file(path)
+    }	
+    self.new(options)
+  end
   
   def initialize(opts = {})
     @options = {
@@ -345,7 +351,7 @@ class PatternMaker
       :colors => {"1"=>"255,255,255", "2"=>"0,0,0"},
       :dir => "."
     }.merge opts
-    @data = Marshal.load(Marshal.dump(@@template))
+    @data = @options[:data] || Marshal.load(Marshal.dump(@@template))
   end
 
   def make
